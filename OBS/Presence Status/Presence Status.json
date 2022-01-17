@@ -1,0 +1,435 @@
+[
+    {
+        "id": "e616d4a0d823badd",
+        "type": "tab",
+        "label": "3.4.1 OBS Connection and Presence Message",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "85a8a1ceb703de94",
+        "type": "status",
+        "z": "e616d4a0d823badd",
+        "name": "",
+        "scope": [
+            "927685d73e892028"
+        ],
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "b2fcb813b94dcc20"
+            ]
+        ]
+    },
+    {
+        "id": "b2fcb813b94dcc20",
+        "type": "function",
+        "z": "e616d4a0d823badd",
+        "name": "check status",
+        "func": "if(msg.status.text == \"node-red:common.status.disconnected\"){\n    msg.status.text = \"disconnected\"\n}else if(msg.status.text == \"node-red:common.status.connecting\"){\n    msg.status.text = \"connecting\"\n}else if(msg.status.text == \"node-red:common.status.connected\"){\n    msg.status.text = \"connected\"\n}else {\n    msg.status.text = \"status unknown\"\n}\nnode.send(msg);",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 360,
+        "wires": [
+            [
+                "5042b9be031120df"
+            ]
+        ]
+    },
+    {
+        "id": "5042b9be031120df",
+        "type": "ui_template",
+        "z": "e616d4a0d823badd",
+        "group": "4c9243be24ee85b0",
+        "name": "OBS Connection and Presence Message",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<!DOCTYPE html>\n<html>\n\n<head>\n    <title>config Data</title>\n    <link href=\"https://fonts.googleapis.com/css?family=Roboto:300,400,500,700\" rel=\"stylesheet\">\n    <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.5.0/css/all.css\"\n        integrity=\"sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU\" crossorigin=\"anonymous\">\n\n    <style>\n        html,\n        body {\n            min-height: 100%;\n        }\n\n        /* #table-id tr {\n            display: none;\n        } */\n\n        body,\n        div,\n        form,\n        input,\n        label {\n            padding: 0;\n            margin: 0;\n            outline: none;\n            font-family: Roboto, Arial, sans-serif;\n            font-size: 13px;\n            color: #666;\n            line-height: 22px;\n        }\n\n        legend {\n            color: #fff;\n            background-color: #212529;\n            border-color: #32383e;\n            padding: 3px 5px;\n            font-size: 20px;\n        }\n\n        h1 {\n            margin: 0;\n            font-size: 36px;\n            color: #fff;\n            z-index: 2;\n        }\n\n        .testbox {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: inherit;\n            padding: 20px;\n        }\n\n        form {\n            width: 100%;\n            padding: 20px;\n            border-radius: 6px;\n            background: #fff;\n            box-shadow: 0 0 20px 0 #095484;\n        }\n\n        .banner {\n            position: relative;\n            height: 320px;\n            background-image: url(\"/uploads/media/default/0001/02/19ea6ba00def11fb8f5113a4d7555a97bd58ce3d.jpeg\");\n            background-size: cover;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            text-align: center;\n        }\n\n        .banner::after {\n            content: \"\";\n            background-color: rgba(0, 0, 0, 0.6);\n            position: absolute;\n            width: 100%;\n            height: 100%;\n        }\n\n        input {\n            margin-bottom: 10px;\n            border: 1px solid #ccc;\n            border-radius: 3px;\n        }\n\n        input {\n            width: calc(100% - 10px);\n            padding: 5px;\n        }\n\n        select {\n            width: 100%;\n            padding: 7px 0;\n            background: transparent;\n        }\n\n        input[type=\"date\"] {\n            padding: 4px 5px;\n        }\n\n        .item:hover p,\n        .item:hover i,\n        .question:hover p,\n        .question label:hover,\n        input:hover::placeholder {\n            color: #095484;\n        }\n\n        .item input:hover {\n            border: 1px solid transparent;\n            box-shadow: 0 0 6px 0 #095484;\n            color: #095484;\n        }\n\n        .item {\n            position: relative;\n            margin: 10px 0;\n        }\n\n        input[type=\"date\"]::-webkit-inner-spin-button {\n            display: none;\n        }\n\n        .item i,\n        input[type=\"date\"]::-webkit-calendar-picker-indicator {\n            position: absolute;\n            font-size: 20px;\n            color: #095484;\n        }\n\n        .item i {\n            right: 2%;\n            top: 30px;\n            z-index: 1;\n        }\n\n        [type=\"date\"]::-webkit-calendar-picker-indicator {\n            right: 1%;\n            z-index: 2;\n            opacity: 0;\n            cursor: pointer;\n        }\n\n        .question span {\n            margin-left: 30px;\n        }\n\n        .btn-block {\n            margin-top: 10px;\n            text-align: center;\n\n        }\n\n        button {\n            width: 150px;\n            padding: 10px;\n            border: none;\n            border-radius: 5px;\n            background: #095484;\n            font-size: 16px;\n            color: #fff;\n            cursor: pointer;\n            background-color: #28a745;\n            border-color: #28a745;\n        }\n\n        button:hover {\n            background: #28a745;\n        }\n\n        @media (min-width: 568px) {\n\n            .name-item,\n            .city-item {\n                display: flex;\n                flex-wrap: wrap;\n                justify-content: space-between;\n            }\n\n            .name-item input,\n            .city-item input,\n            .name-item div {\n                width: calc(50% - 20px);\n            }\n\n            .name-item div input {\n                width: 97%;\n            }\n\n            .name-item div label {\n                display: block;\n                padding-bottom: 5px;\n            }\n        }\n\n        .input,\n        .textarea {\n            border: 1px solid #ccc;\n            font-family: inherit;\n            font-size: inherit;\n            padding: 1px 6px;\n        }\n\n        .table {\n            width: 100%;\n            max-width: 100%;\n            margin-bottom: 1rem;\n            background-color: transparent;\n        }\n\n        table {\n            border-collapse: collapse;\n        }\n\n        *,\n        ::after,\n        ::before {\n            box-sizing: border-box;\n        }\n\n        table {\n            display: table;\n            border-collapse: separate;\n            box-sizing: border-box;\n            text-indent: initial;\n            border-spacing: 2px;\n            border-color: grey;\n        }\n\n        thead {\n            display: table-header-group;\n            vertical-align: middle;\n            border-color: inherit;\n        }\n\n        table {\n            border-collapse: collapse;\n        }\n\n        table {\n            border-collapse: separate;\n            text-indent: initial;\n            border-spacing: 2px;\n        }\n\n        .table .thead-dark th {\n            color: #fff;\n            background-color: #212529;\n            border-color: #32383e;\n        }\n\n        .table thead th {\n            vertical-align: bottom;\n            border-bottom: 2px solid #dee2e6;\n        }\n\n        .table td,\n        .table th {\n            padding: .75rem;\n            vertical-align: top;\n            border-top: 1px solid #dee2e6;\n        }\n\n        th {\n            text-align: inherit;\n        }\n\n\n\n        .table .thead-dark th {\n            color: #fff;\n            background-color: #212529;\n            border-color: #32383e;\n        }\n\n        .table thead th {\n            vertical-align: bottom;\n            border-bottom: 2px solid #dee2e6;\n        }\n\n        .table td,\n        .table th {\n            padding: .75rem;\n            vertical-align: top;\n            border-top: 1px solid #dee2e6;\n        }\n\n        th {\n            text-align: inherit;\n        }\n\n        *,\n        ::after,\n        ::before {\n            box-sizing: border-box;\n        }\n\n        user agent stylesheet th {\n            display: table-cell;\n            vertical-align: inherit;\n            font-weight: bold;\n            text-align: -internal-center;\n        }\n\n        table {\n            border-collapse: collapse;\n        }\n\n        #failedItemsForm {\n            display: none;\n        }\n\n        #spnText {\n            background-color: Yellow;\n            color: red;\n        }\n\n        td,\n        th {\n            border: 1px solid #dddddd;\n        }\n\n        #updateValueParameter,\n        #cancelValueParameter {\n            display: none;\n        }\n\n        #forminput1,\n        #save,\n        #close {\n            display: none;\n        }\n\n        .switch {\n            position: relative;\n            display: inline-block;\n            width: 90px;\n            height: 34px;\n        }\n\n        .switch input {\n            display: none;\n        }\n\n        .slider {\n            position: absolute;\n            cursor: pointer;\n            top: 0;\n            left: 0;\n            right: 0;\n            bottom: 0;\n            background-color: #ca2222;\n            -webkit-transition: .4s;\n            transition: .4s;\n        }\n\n        .slider:before {\n            position: absolute;\n            content: \"\";\n            height: 26px;\n            width: 26px;\n            left: 4px;\n            bottom: 4px;\n            background-color: white;\n            -webkit-transition: .4s;\n            transition: .4s;\n        }\n\n        input:checked+.slider {\n            background-color: #2ab934;\n        }\n\n        input:focus+.slider {\n            box-shadow: 0 0 1px #2196F3;\n        }\n\n        input:checked+.slider:before {\n            -webkit-transform: translateX(55px);\n            -ms-transform: translateX(55px);\n            transform: translateX(55px);\n        }\n\n        /*------ ADDED CSS ---------*/\n        .on {\n            display: none;\n        }\n\n        .on,\n        .off {\n            color: white;\n            position: absolute;\n            transform: translate(-50%, -50%);\n            top: 50%;\n            left: 50%;\n            font-size: 10px;\n            font-family: Verdana, sans-serif;\n        }\n\n        input:checked+.slider .on {\n            display: block;\n        }\n\n        input:checked+.slider .off {\n            display: none;\n        }\n\n        /*--------- END --------*/\n\n        /* Rounded sliders */\n        .slider.round {\n            border-radius: 34px;\n        }\n\n        .slider.round:before {\n            border-radius: 50%;\n        }\n    </style>\n</head>\n\n<body>\n\n    <div style=\"display: flex;\">\n        <form style=\" display: block; overflow: auto;\" id=\"myForm\">\n            <h3>3.4.1 OBS Connection and Presence Message</h3>\n            <br />\n            <div id=\"publish-status-form\">\n                <fieldset>\n                    <legend>Turn ON/OFF connection</legend>\n                    <div>\n                        <div class=\"name-item\">\n                            <!--<div>-->\n                            <!--  <label for=\"tranid\">TrainId</label>-->\n                            <!--  <input style=\"width: 70%;\" id=\"tranid\" type=\"text\" name=\"tranid\" required />-->\n                            <!--</div>-->\n                            <div id=\"divSelectMqttAccount\">\n                                <label for=\"\">Train id</label>\n                                <select disabled style=\"width: 72%;\" id=\"selectMqttAccount\" name=\"selectMqttAccount\">\n\n                                </select>\n                            </div>\n                            <div>\n                                <label for=\"topic\">Topic</label>\n                                <input style=\"width: 72%;\" id=\"topic\" type=\"text\" readonly placeholder=\"presence/status\"\n                                    name=\"topic\" required />\n                            </div>\n                        </div>\n                        <div class=\"item\">\n                            <span style=\"font-size: 30px; color: red;\" id=\"connectStatus\">Status </span>\n                            <label class=\"switch\">\n\n                                <input type=\"checkbox\" id=\"togBtn\">\n                                <div class=\"slider round\">\n                                    <!--ADDED HTML -->\n                                    <span class=\"on\">ON</span>\n                                    <span class=\"off\">OFF</span>\n                                    <!--END-->\n                                </div>\n                            </label>\n                        </div>\n                    </div>\n                </fieldset>\n                <br>\n                <fieldset>\n                    <legend>Publish presence message manually</legend>\n                    <div>\n                        <div class=\"name-item\">\n                            <div>\n                                <label for=\"willTranid\">TrainId</label>\n                                <input disabled style=\"width: 70%;\" id=\"willTranid\" type=\"text\" name=\"willTranid\"\n                                    required />\n                            </div>\n                            <div>\n                                <label for=\"willTopic\">lastWillTopic</label>\n                                <input style=\"width: 70%;\" id=\"willTopic\" type=\"text\" readonly\n                                    placeholder=\"presence/status\" name=\"willTopic\" required />\n                            </div>\n                        </div>\n                        <div class=\"item\">\n                            <div class=\"item\">\n                                <div class=\"name-item\">\n                                    <div>\n                                        <label for=\"willQos\">lastWillQos</label>\n                                        <select disabled style=\"width: 73%;\" id=\"willQos\" name=\"willQos\" required>\n                                            <option value=\"0\">0</option>\n                                            <option selected value=\"1\">1</option>\n                                            <option value=\"2\">2</option>\n                                        </select>\n                                    </div>\n                                    <div>\n                                        <label for=\"retainFlag\">lastWillRetain</label>\n                                        <select disabled style=\"width: 73%;\" id=\"willRetainFlag\" , name=\"retainFlag\"\n                                            required>\n                                            <option selected value=\"true\">True</option>\n                                            <option value=\"false\">False</option>\n                                        </select>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"item\">\n                            <div>\n                                <label for=\"presence\">lastWillMessage</label>\n                                <div>\n                                    <select style=\"width: 35%;\" id=\"presence\" name=\"presence\" required>\n                                        <option value=\"0\">0 = offline</option>\n                                        <option selected value=\"1\">1 = online</option>\n                                        <option value=\"2\">2 = rebooting</option>\n                                        <option value=\"3\">3 = shutting down</option>\n                                    </select>\n                                    <input type=\"button\" style=\" width: 10%; background-color:#28a745; color: #fff\"\n                                        id=\"publishPresence\" value=\"Publish\">\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </fieldset>\n            </div>\n        </form>\n    </div>\n    <script src=\"https://code.jquery.com/jquery-3.6.0.js\"\n        integrity=\"sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=\" crossorigin=\"anonymous\">\n        </script>\n\n    <!-- ajax -->\n    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>\n    <script type=\"text/javascript\">\n\n        var btnPublish = $(\"#publishPresence\");\n        var willTopic = $(\"#willTopic\");\n        var willTranid = $(\"#willTranid\");\n        var willQos = $(\"#willQos\");\n        var willRetainFlag = $('#willRetainFlag');\n        var presenceMessage = $('#presence');\n        var connectStatus = $('#connectStatus');\n        var btnOnOFF = $('#togBtn');\n\n        var topic = $(\"#topic\");\n\n        var MQTT_ACCOUNTS_KEY_LOCAL_STORE = \"mqttaccount\";\n        var mqttAccounts = localStorage.getItem(MQTT_ACCOUNTS_KEY_LOCAL_STORE) || [];\n\n        var userNameMQTTSelected = \"aemr_810001\";\n        var passwordMQTTSelected = \"\";\n\n\n        (function (scope) {\n            // scope.send({ action: \"disconnect\" });\n            \n            btnOnOFF.change(function () {\n                if ($(this).is(\":checked\")) {\n                    //ON\n                    // alert(\"Connected\");\n                    setupConnect();\n                } else {\n                    //OFF\n                    // alert(\"Disconnected\");\n                    scope.send({ action: \"disconnect\" });\n                }\n            });\n\n            function setupConnect(){\n                        var payloadBroker = {\n                        username: userNameMQTTSelected,\n                        password: passwordMQTTSelected,\n                        birth: {\n                            topic: $('#selectMqttAccount').val() + \"/presence/status\",\n                            qos: 1,\n                            retain: true,\n                            payload: \"{\\\"presence\\\": 1}\"\n                        },\n                        close: {\n                            topic: $('#selectMqttAccount').val() + \"/presence/status\",\n                            qos: 1,\n                            retain: true,\n                            payload: \"{\\\"presence\\\": 3}\"\n                        },\n                        will: {\n                            topic: $('#selectMqttAccount').val() + \"/presence/status\",\n                            qos: 1,\n                            retain: true,\n                            payload: \"{\\\"presence\\\": 0}\"\n                        }\n                    }\n                    \n                    scope.send({ action: \"connect\", broker: payloadBroker });\n                    // scope.send({ action: \"subscribe\", topic: \"ws_\" + $('#selectMqttAccount').val()+ \"/presence/status\" });\n                    \n                    \n            }\n\n            btnPublish.click(() => {\n                if (willTranid.val() == \"\") {\n                    alert(\"PLEASE INPUT TRAINID\")\n                }\n                else {\n                    scope.send({ topic: willTopic.val(), qos: willQos.val(), retain: willRetainFlag.val(), payload: { presence: parseInt(presenceMessage.val()) } })\n                    alert(\"successful\");\n                    // scope.send({ topic: willTopic.val(), qos: willQos.val(), retainFlag: willRetainFlag.val(), payload: { presence: parseInt(presenceMessage.val()) } })\n                    // console.log({ topic: willTopic.val(), qos: willQos.val(), retainFlag: willRetainFlag.val(), payload: { presence: parseInt(presenceMessage.val()) } })\n                }\n            })\n\n            scope.$watch('msg', function (msg) {\n\n                if (msg.status.text == \"disconnected\") {\n                    $(\"#togBtn\").prop(\"checked\", false);\n                    connectStatus.css(\"color\", \"red\");\n                    // $('#selectMqttAccount').prop('disabled', false);\n                } else if (msg.status.text == \"connected\") {\n                    connectStatus.css(\"color\", \"#2aa722\");\n                    $(\"#togBtn\").prop(\"checked\", true);\n                    scope.send({action: \"subscribe\", topic:[\n                        {topic:\"ws_\" + userNameMQTTSelected + \"/presence/status\",qos:1},\n                        {topic:userNameMQTTSelected + \"/config/command\",qos:1},\n                        {topic:userNameMQTTSelected + \"/cert/data\",qos:2},\n                        {topic:userNameMQTTSelected + \"/data-upload/send\",qos:2},\n                        {topic:userNameMQTTSelected + \"/data-upload/received\",qos:2},\n                        {topic:userNameMQTTSelected + \"/data-upload/request\",qos:2},\n                        {topic:userNameMQTTSelected + \"/data-download/available\",qos:2},\n                        {topic:userNameMQTTSelected + \"/hvac/command\",qos:1},\n                        {topic:userNameMQTTSelected + \"/tms/command\",qos:1}]})\n                        \n                        \n                    // // scope.send({ action: \"subscribe\", topic: \"ws_\" + $('#selectMqttAccount').val()+ \"/presence/status\" });\n                    // console.log($('#selectMqttAccount').val())\n                    // $('#selectMqttAccount').prop('disabled', true);\n                } else if (msg.status.text == \"connecting\") {\n                    connectStatus.css(\"color\", \"#FFCC00\");\n                } else {\n                    connectStatus.text(\"unknown\");\n                }\n            });\n\n        })(scope);\n\n        function getAcccountMQTT() {\n\n\n            //promise\n            fetch('/get-account-mqtt')\n                .then(response => response.json())\n                .then(res => {\n                    if (res.status == true) {\n                        localStorage.setItem(MQTT_ACCOUNTS_KEY_LOCAL_STORE, JSON.stringify(res.data));\n                        // check have user in env\n                        if (res.data.length !== 0) {\n                            var option = \"\";\n                            res.data.forEach((v, i) => {\n                                option += `<option data='${v.username}'>${v.username}</option>`\n                            })\n\n                            // set default value\n                            topic.val( res.data[0].username + \"/presence/status\")\n                            userNameMQTTSelected = res.data[0].username;\n                            passwordMQTTSelected = res.data[0].password;\n                            willTranid.val(res.data[0].username )\n                            willTopic.val(res.data[0].username + \"/presence/status\");\n                            \n                            \n                        }\n                        $(\"#selectMqttAccount\").append(option);\n                    } else {\n                        // to do with get global variable error\n                        console.log(res);\n                    }\n                });\n\n        }\n        \n        function crateAcctionToMQTTNode() {\n\n            $.ajax({\n\n                url: \"/create-action\",\n\n                type: \"POST\",\n\n                data: { action: \"connect\" },\n\n                cache: false,\n\n                success: function (res) {\n\n                    console.log(res)\n\n                    if (res.status) {\n                       \n                    } else {\n                        console.log(res.error);\n                    }\n                }\n            });\n        }\n\n        $(document).ready(function () {\n            crateAcctionToMQTTNode();\n            //get MQTT account \n            getAcccountMQTT();\n            // var clearLogId = $(\"#clear-log\");\n\n            $('#selectMqttAccount').change(function () {\n\n\n                var getMQTTAccounts = JSON.parse(localStorage.getItem(MQTT_ACCOUNTS_KEY_LOCAL_STORE));\n\n\n                var indexOfCurrentSelectMQTTAccout = getMQTTAccounts.findIndex(x => x.username === this.value);\n\n                var getCurrentSelectMQTTAccount = getMQTTAccounts[indexOfCurrentSelectMQTTAccout];\n\n\n                userNameMQTTSelected = getCurrentSelectMQTTAccount.username;\n                passwordMQTTSelected = getCurrentSelectMQTTAccount.password\n\n                topic.val(userNameMQTTSelected + \"/presence/status\")\n                willTranid.val(userNameMQTTSelected)\n                willTopic.val(userNameMQTTSelected + \"/presence/status\")\n            });\n\n                // clearLogId.on(\"click\", handleClearLog);\n                \n        });\n\n\n    </script>\n</body>\n\n</html>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "x": 600,
+        "y": 360,
+        "wires": [
+            [
+                "46c1840fb4c2f47b",
+                "1936b26a072651ca",
+                "c56f832fb0b2b170"
+            ]
+        ]
+    },
+    {
+        "id": "9559933f4d5e2141",
+        "type": "mqtt out",
+        "z": "e616d4a0d823badd",
+        "name": "Publish presence message",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "4c2c9454f646f701",
+        "x": 1180,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "927685d73e892028",
+        "type": "mqtt in",
+        "z": "e616d4a0d823badd",
+        "name": "Subscribe Presence Message",
+        "topic": "",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "4c2c9454f646f701",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 1,
+        "x": 1180,
+        "y": 380,
+        "wires": [
+            [
+                "67e813e0d67f7537",
+                "9f294616b4e5abd1"
+            ]
+        ]
+    },
+    {
+        "id": "67e813e0d67f7537",
+        "type": "ui_template",
+        "z": "e616d4a0d823badd",
+        "group": "4c9243be24ee85b0",
+        "name": "Show payload form OBS",
+        "order": 4,
+        "width": "0",
+        "height": "0",
+        "format": "<!DOCTYPE html>\n<html>\n\n<head>\n    <title>config Data</title>\n    <link href=\"https://fonts.googleapis.com/css?family=Roboto:300,400,500,700\" rel=\"stylesheet\">\n    <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.5.0/css/all.css\"\n        integrity=\"sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU\" crossorigin=\"anonymous\">\n\n    <style>\n        html,\n        body {\n            min-height: 100%;\n        }\n\n        /* #table-id tr {\n            display: none;\n        } */\n\n        body,\n        div,\n        form,\n        input,\n        label {\n            padding: 0;\n            margin: 0;\n            outline: none;\n            font-family: Roboto, Arial, sans-serif;\n            font-size: 13px;\n            color: #666;\n            line-height: 22px;\n        }\n\n        legend {\n            color: #fff;\n            background-color: #212529;\n            border-color: #32383e;\n            padding: 3px 5px;\n            font-size: 20px;\n        }\n\n        h1 {\n            margin: 0;\n            font-size: 36px;\n            color: #fff;\n            z-index: 2;\n        }\n\n        .testbox {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: inherit;\n            padding: 20px;\n        }\n\n        form {\n            width: 100%;\n            padding: 20px;\n            border-radius: 6px;\n            background: #fff;\n            box-shadow: 0 0 20px 0 #095484;\n        }\n\n        .banner {\n            position: relative;\n            height: 320px;\n            background-image: url(\"/uploads/media/default/0001/02/19ea6ba00def11fb8f5113a4d7555a97bd58ce3d.jpeg\");\n            background-size: cover;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            text-align: center;\n        }\n\n        .banner::after {\n            content: \"\";\n            background-color: rgba(0, 0, 0, 0.6);\n            position: absolute;\n            width: 100%;\n            height: 100%;\n        }\n\n        input {\n            margin-bottom: 10px;\n            border: 1px solid #ccc;\n            border-radius: 3px;\n        }\n\n        input {\n            width: calc(100% - 10px);\n            padding: 5px;\n        }\n\n        select {\n            width: 100%;\n            padding: 7px 0;\n            background: transparent;\n        }\n\n        input[type=\"date\"] {\n            padding: 4px 5px;\n        }\n\n        .item:hover p,\n        .item:hover i,\n        .question:hover p,\n        .question label:hover,\n        input:hover::placeholder {\n            color: #095484;\n        }\n\n        .item input:hover {\n            border: 1px solid transparent;\n            box-shadow: 0 0 6px 0 #095484;\n            color: #095484;\n        }\n\n        .item {\n            position: relative;\n            margin: 10px 0;\n        }\n\n        input[type=\"date\"]::-webkit-inner-spin-button {\n            display: none;\n        }\n\n        .item i,\n        input[type=\"date\"]::-webkit-calendar-picker-indicator {\n            position: absolute;\n            font-size: 20px;\n            color: #095484;\n        }\n\n        .item i {\n            right: 2%;\n            top: 30px;\n            z-index: 1;\n        }\n\n        [type=\"date\"]::-webkit-calendar-picker-indicator {\n            right: 1%;\n            z-index: 2;\n            opacity: 0;\n            cursor: pointer;\n        }\n\n        .question span {\n            margin-left: 30px;\n        }\n\n        .btn-block {\n            margin-top: 10px;\n            text-align: center;\n\n        }\n\n        button {\n            width: 150px;\n            padding: 10px;\n            border: none;\n            border-radius: 5px;\n            background: #095484;\n            font-size: 16px;\n            color: #fff;\n            cursor: pointer;\n            background-color: #28a745;\n            border-color: #28a745;\n        }\n\n        button:hover {\n            background: #28a745;\n        }\n\n        @media (min-width: 568px) {\n\n            .name-item,\n            .city-item {\n                display: flex;\n                flex-wrap: wrap;\n                justify-content: space-between;\n            }\n\n            .name-item input,\n            .city-item input,\n            .name-item div {\n                width: calc(50% - 20px);\n            }\n\n            .name-item div input {\n                width: 97%;\n            }\n\n            .name-item div label {\n                display: block;\n                padding-bottom: 5px;\n            }\n        }\n\n        .input,\n        .textarea {\n            border: 1px solid #ccc;\n            font-family: inherit;\n            font-size: inherit;\n            padding: 1px 6px;\n        }\n\n        .table {\n            width: 100%;\n            max-width: 100%;\n            margin-bottom: 1rem;\n            background-color: transparent;\n        }\n\n        table {\n            border-collapse: collapse;\n        }\n\n        *,\n        ::after,\n        ::before {\n            box-sizing: border-box;\n        }\n\n        table {\n            display: table;\n            border-collapse: separate;\n            box-sizing: border-box;\n            text-indent: initial;\n            border-spacing: 2px;\n            border-color: grey;\n        }\n\n        thead {\n            display: table-header-group;\n            vertical-align: middle;\n            border-color: inherit;\n        }\n\n        table {\n            border-collapse: collapse;\n        }\n\n        table {\n            border-collapse: separate;\n            text-indent: initial;\n            border-spacing: 2px;\n        }\n\n        .table .thead-dark th {\n            color: #fff;\n            background-color: #212529;\n            border-color: #32383e;\n        }\n\n        .table thead th {\n            vertical-align: bottom;\n            border-bottom: 2px solid #dee2e6;\n        }\n\n        .table td,\n        .table th {\n            padding: .75rem;\n            vertical-align: top;\n            border-top: 1px solid #dee2e6;\n        }\n\n        th {\n            text-align: inherit;\n        }\n\n\n\n        .table .thead-dark th {\n            color: #fff;\n            background-color: #212529;\n            border-color: #32383e;\n        }\n\n        .table thead th {\n            vertical-align: bottom;\n            border-bottom: 2px solid #dee2e6;\n        }\n\n        .table td,\n        .table th {\n            padding: .75rem;\n            vertical-align: top;\n            border-top: 1px solid #dee2e6;\n        }\n\n        th {\n            text-align: inherit;\n        }\n\n        *,\n        ::after,\n        ::before {\n            box-sizing: border-box;\n        }\n\n        user agent stylesheet th {\n            display: table-cell;\n            vertical-align: inherit;\n            font-weight: bold;\n            text-align: -internal-center;\n        }\n\n        table {\n            border-collapse: collapse;\n        }\n\n        #failedItemsForm {\n            display: none;\n        }\n\n        #spnText {\n            background-color: Yellow;\n            color: red;\n        }\n\n        /*td,*/\n        /*th {*/\n        /*    border: 1px solid #dddddd;*/\n        /*}*/\n\n        #updateValueParameter,\n        #cancelValueParameter {\n            display: none;\n        }\n\n        #forminput1,\n        #save,\n        #close {\n            display: none;\n        }\n    </style>\n</head>\n\n<body>\n    <div style=\"display: flex;\">\n        <form style=\" display: block; overflow: auto;\" id=\"myForm\">\n            <div id=\"payload-form\">\n                <div>\n                    <h3>Send presence message to WS</h3>\n                    <p>Topic : <span style=\"font-weight: bold;\">{{msg.topic1}}</span></p>\n                    <table class=\"table\">\n                        <thead class=\"thead-dark\">\n                            <tr>\n                                <th scope=\"col\">presence</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr>\n                                <th scope=\"row\">{{msg.payload}}\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n        </form>\n    </div>\n\n</body>\n\n</html>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "x": 1290,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a9075fd577eeba2d",
+        "type": "comment",
+        "z": "e616d4a0d823badd",
+        "name": "OBS-Wayside ICD_draft_14-DDL-02-1121-ES-20210112",
+        "info": "",
+        "x": 270,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "f6c571bd038ccd05",
+        "type": "comment",
+        "z": "e616d4a0d823badd",
+        "name": "3.4.1 OBS Connection and Presence Message",
+        "info": "The presence message is used to indicate whether a particular OBS is online or offline. When an OBS connects to the MQTT broker it will set a Last Will and Testament (LWT), to ensure that the presence status is set to offline if the connection is dropped ungracefully.\nWhen the OBS connects to the MQTT broker it will publish a presence message to confirm it is online.\nWhen the OBS disconnects from the MQTT broker it will publish a presence message confirming it is going offline.\nFigure 5 shows the connection flow for the OBS connecting to the MQTT Broker, and the consumption of the data from the Application Server. Note that the Application server shall connect in the same manner.\n",
+        "x": 230,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "46c1840fb4c2f47b",
+        "type": "function",
+        "z": "e616d4a0d823badd",
+        "name": "check subscribe",
+        "func": "if(msg.action==\"connect\"||msg.action==\"subscribe\"||msg.action==\"disconnect\")\n{\n return msg   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 420,
+        "wires": [
+            [
+                "927685d73e892028"
+            ]
+        ]
+    },
+    {
+        "id": "1936b26a072651ca",
+        "type": "function",
+        "z": "e616d4a0d823badd",
+        "name": "check publish",
+        "func": "if(msg.action==\"connect\"||msg.action==\"subscribe\"||msg.action==\"disconnect\")\n{\n}\nelse\n{\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 360,
+        "wires": [
+            [
+                "9559933f4d5e2141"
+            ]
+        ]
+    },
+    {
+        "id": "a51a15d0799138f9",
+        "type": "function",
+        "z": "e616d4a0d823badd",
+        "d": true,
+        "name": "",
+        "func": "let test = context.global.MQTTAccounts;\n\nmsg.mqttAccounts = test;\n\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 440,
+        "wires": [
+            [
+                "5042b9be031120df",
+                "7a1e870a351de74e"
+            ]
+        ]
+    },
+    {
+        "id": "d9c0cc2cf63db219",
+        "type": "inject",
+        "z": "e616d4a0d823badd",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 440,
+        "wires": [
+            [
+                "a51a15d0799138f9"
+            ]
+        ]
+    },
+    {
+        "id": "c56f832fb0b2b170",
+        "type": "debug",
+        "z": "e616d4a0d823badd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "7a1e870a351de74e",
+        "type": "debug",
+        "z": "e616d4a0d823badd",
+        "d": true,
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 470,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "8a8a378d48b48408",
+        "type": "http in",
+        "z": "e616d4a0d823badd",
+        "name": "",
+        "url": "/get-account-mqtt",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 420,
+        "y": 640,
+        "wires": [
+            [
+                "672a8fa29cb0e6c8"
+            ]
+        ]
+    },
+    {
+        "id": "672a8fa29cb0e6c8",
+        "type": "function",
+        "z": "e616d4a0d823badd",
+        "name": "handle get env account mqtt",
+        "func": "try{\n        msg.payload = {};\n    // msg.payload.data =context.global.MQTTAccounts || [];\n    msg.payload.data =context.global.MQTTAccounts || [];\n    msg.payload.status = true;\n\n    return msg;\n}catch(e){\n    msg.payload ={};\n    msg.payload.status = false;\n    \n    msg.payload.error = e + \"\";\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 640,
+        "wires": [
+            [
+                "20b50aeae9b0490c"
+            ]
+        ]
+    },
+    {
+        "id": "20b50aeae9b0490c",
+        "type": "http response",
+        "z": "e616d4a0d823badd",
+        "name": "response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1060,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "fd2ca9dc7c85a0a6",
+        "type": "comment",
+        "z": "e616d4a0d823badd",
+        "name": "get log data",
+        "info": "",
+        "x": 390,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "e6f7eb685a0f3145",
+        "type": "http in",
+        "z": "e616d4a0d823badd",
+        "d": true,
+        "name": "",
+        "url": "/create-action",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 410,
+        "y": 720,
+        "wires": [
+            [
+                "acc9b6ad8053f1fe"
+            ]
+        ]
+    },
+    {
+        "id": "49bb4dc80aa316ad",
+        "type": "http response",
+        "z": "e616d4a0d823badd",
+        "d": true,
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 890,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "acc9b6ad8053f1fe",
+        "type": "function",
+        "z": "e616d4a0d823badd",
+        "d": true,
+        "name": "",
+        "func": "msg.action = msg.payload.action\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9f294616b4e5abd1",
+        "type": "debug",
+        "z": "e616d4a0d823badd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1190,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "4c9243be24ee85b0",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "806f7a9537d9e9c4",
+        "order": 1,
+        "disp": true,
+        "width": "23",
+        "collapse": false
+    },
+    {
+        "id": "4c2c9454f646f701",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "${MQTT_SERVER}",
+        "port": "${MQTT_PORT}",
+        "clientid": "${MQTT_CLIENTID_UNIQUE}",
+        "autoConnect": false,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "806f7a9537d9e9c4",
+        "type": "ui_tab",
+        "name": "3.4.1 OBS Connection and Presence Message",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
