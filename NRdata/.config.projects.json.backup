@@ -1,0 +1,7 @@
+{
+    "projects": {
+        "node-red": {
+            "credentialSecret": false
+        }
+    }
+}
